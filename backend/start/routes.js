@@ -21,4 +21,5 @@ Route.group(() => {
 });
 Route.group(() => {
   Route.post('/signin', 'AuthController.signin');
+  Route.post('/forgotPassword', 'AuthController.forgotPassword');
 }).prefix('auth');
