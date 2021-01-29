@@ -29,3 +29,7 @@ Route.group(() => {
   Route.post('/', 'CategoryController.store');
   Route.put('/:id', 'CategoryController.update');
 }).prefix('category');
+
+Route.group(() => {
+  Route.post('/', 'ImageController.store');
+}).prefix('image');
