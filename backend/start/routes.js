@@ -19,7 +19,13 @@ const Route = use('Route');
 Route.group(() => {
   Route.resource('users', 'UserController').apiOnly();
 });
+
 Route.group(() => {
   Route.post('/signin', 'AuthController.signin');
   Route.post('/forgotPassword', 'AuthController.forgotPassword');
 }).prefix('auth');
+
+Route.group(() => {
+  Route.post('/', 'CategoryController.store');
+  Route.put('/:id', 'CategoryController.update');
+}).prefix('category');
