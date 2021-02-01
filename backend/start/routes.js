@@ -26,6 +26,7 @@ Route.group(() => {
 }).prefix('auth');
 
 Route.group(() => {
+  Route.get('/', 'CategoryController.index');
   Route.post('/', 'CategoryController.store');
   Route.put('/:id', 'CategoryController.update');
 }).prefix('category');
