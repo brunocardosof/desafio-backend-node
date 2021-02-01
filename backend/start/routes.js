@@ -32,8 +32,11 @@ Route.group(() => {
 }).prefix('category');
 
 Route.group(() => {
+  Route.get('/', 'ProductController.index');
   Route.post('/', 'ProductController.store');
+  Route.put('/changeStockBalance/:id', 'ProductController.changeStockBalance');
   Route.put('/:id', 'ProductController.update');
+  Route.delete('/:id', 'ProductController.destroy');
 }).prefix('product');
 
 Route.group(() => {
