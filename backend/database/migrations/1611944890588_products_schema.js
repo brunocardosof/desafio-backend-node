@@ -23,8 +23,7 @@ class ProductsSchema extends Schema {
         .notNullable()
         .references('id')
         .inTable('categories')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onUpdate('CASCADE');
       table.timestamps();
     });
   }
