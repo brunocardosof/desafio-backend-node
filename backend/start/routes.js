@@ -19,7 +19,26 @@ const Route = use('Route');
 Route.group(() => {
   Route.resource('users', 'UserController').apiOnly();
 });
+
 Route.group(() => {
   Route.post('/signin', 'AuthController.signin');
   Route.post('/forgotPassword', 'AuthController.forgotPassword');
 }).prefix('auth');
+
+Route.group(() => {
+  Route.get('/', 'CategoryController.index');
+  Route.post('/', 'CategoryController.store');
+  Route.put('/:id', 'CategoryController.update');
+}).prefix('category');
+
+Route.group(() => {
+  Route.get('/', 'ProductController.index');
+  Route.post('/', 'ProductController.store');
+  Route.put('/changeStockBalance/:id', 'ProductController.changeStockBalance');
+  Route.put('/:id', 'ProductController.update');
+  Route.delete('/:id', 'ProductController.destroy');
+}).prefix('product');
+
+Route.group(() => {
+  Route.post('/', 'ImageController.store');
+}).prefix('image');
