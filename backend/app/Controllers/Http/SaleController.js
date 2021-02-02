@@ -4,7 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Sale = use("App/Models/Sale");
+const Sales_Product = use("App/Models/Sales_Product");
 const Database = use('Database');
 
 /**
@@ -17,21 +17,15 @@ class SaleController {
   product_quantity = 0;
   product_price = 0;
 
-  async index({ request }) {
-    const query = request.get();
-    if (query.keyword) {
-      return await Database
-        .from('users')
-        .where(function () {
-          this
-            .where('username', query.keyword)
-            .orWhere('email', query.keyword);
-        });
-    }
-    return await Database
-      .from('sales')
-      .paginate(query.page, 10);
-
+  async index({ request, params }) {
+    const queryString = request.get();
+    return await Sales_Product
+      .query()
+      .with('product', (builder) => {
+        builder.select('id', 'product_id', 'name', 'stock_balance', 'image_id');
+      })
+      .with('product.categories')
+      .paginate(queryString.page, 10);
   }
 
   async sale({ request, response }) {
