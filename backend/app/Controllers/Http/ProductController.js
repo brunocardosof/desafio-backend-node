@@ -47,6 +47,12 @@ class ProductController {
       });
   }
   async destroy({ params, request, response }) {
+    const salesProduct = await this.checkSalesProduct(params.id);
+    if (salesProduct !== 0)
+      return response.status(409).json({
+        message: `product ${params.id} have a sales order`
+      });
+
     const product = await Product.findOrFail(params.id);
     if (!product) return product;
     return response.status(200).json(await product.delete());
@@ -69,6 +75,13 @@ class ProductController {
       .where('id', params.id)
       .update('stock_balance', result);
 
+  }
+  async checkSalesProduct(product_id) {
+    const sales_product = await Database
+      .table('sales_products')
+      .select('product_id')
+      .where('product_id', product_id);
+    return sales_product.length;
   }
 }
 
