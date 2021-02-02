@@ -21,14 +21,14 @@ Route.group(() => {
 });
 
 Route.group(() => {
-  Route.post('/signin', 'AuthController.signin');
-  Route.post('/forgotPassword', 'AuthController.forgotPassword');
-}).prefix('auth');
+  Route.post('/auth/signin', 'AuthController.signin');
+  Route.post('/auth/forgotPassword', 'AuthController.forgotPassword');
+});
 
 Route.group(() => {
   Route.get('/', 'CategoryController.index');
-  Route.post('/', 'CategoryController.store');
-  Route.put('/:id', 'CategoryController.update');
+  Route.post('/', 'CategoryController.store').middleware(["adminAuth"]);
+  Route.put('/:id', 'CategoryController.update').middleware(["adminAuth"]);
 }).prefix('category');
 
 Route.group(() => {
