@@ -40,7 +40,9 @@ Route.group(() => {
 }).prefix('product');
 
 Route.group(() => {
+  Route.get('/', 'SaleController.index');
   Route.post('/', 'SaleController.sale');
+  Route.delete('/:id', 'SaleController.cancelSale');
 }).prefix('sale');
 Route.group(() => {
   Route.post('/', 'ImageController.store');

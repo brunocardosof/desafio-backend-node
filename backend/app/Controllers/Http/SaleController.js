@@ -17,6 +17,23 @@ class SaleController {
   product_quantity = 0;
   product_price = 0;
 
+  async index({ request }) {
+    const query = request.get();
+    if (query.keyword) {
+      return await Database
+        .from('users')
+        .where(function () {
+          this
+            .where('username', query.keyword)
+            .orWhere('email', query.keyword);
+        });
+    }
+    return await Database
+      .from('sales')
+      .paginate(query.page, 10);
+
+  }
+
   async sale({ request, response }) {
     const dataForSale = request.only(['date', 'user_id']);
     const propertiesForSalesProduct = request.post();
@@ -25,7 +42,7 @@ class SaleController {
     this.product_quantity = propertiesForSalesProduct.quantity;
 
     //Check if product have on stock
-    await this.checkStockBalance();
+    await this.getStockBalance();
 
     if (this.stock < 1) {
       return response.status(409).json({
@@ -72,7 +89,7 @@ class SaleController {
       });
   }
 
-  async checkStockBalance() {
+  async getStockBalance() {
     const stock_balance = await Database
       .from('products')
       .select('stock_balance', 'price')
@@ -87,7 +104,32 @@ class SaleController {
       .table('products')
       .where('id', this.product_id)
       .update('stock_balance', stockForSave);
+  }
+  async addStockBalance() {
+    const stockForSave = this.stock + this.product_quantity;
+    return await Database
+      .table('products')
+      .where('id', this.product_id)
+      .update('stock_balance', stockForSave);
+  }
 
+  async cancelSale({ params, response }) {
+    this.product_id = params.id;
+
+    await this.getStockBalance();
+
+    const sale = await Sale.findOrFail(params.id);
+    if (!sale) return sale;
+
+    const sales_product = await Database
+      .table('sales_products')
+      .select('quantity')
+      .where('sales_id', params.id);
+    this.product_quantity = sales_product[0].quantity;
+
+    this.addStockBalance();
+
+    return response.status(200).json(await sale.delete());
   }
 
 }
