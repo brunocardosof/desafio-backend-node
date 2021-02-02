@@ -40,7 +40,7 @@ Route.group(() => {
 }).prefix('product');
 
 Route.group(() => {
-  Route.get('/', 'SaleController.index');
+  Route.get('/', 'SaleController.index').middleware(["adminAuth"]);
   Route.post('/', 'SaleController.sale');
   Route.delete('/:id', 'SaleController.cancelSale');
 }).prefix('sale');
