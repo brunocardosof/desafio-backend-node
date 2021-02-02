@@ -40,5 +40,8 @@ Route.group(() => {
 }).prefix('product');
 
 Route.group(() => {
+  Route.post('/', 'SaleController.sale');
+}).prefix('sale');
+Route.group(() => {
   Route.post('/', 'ImageController.store');
 }).prefix('image');
