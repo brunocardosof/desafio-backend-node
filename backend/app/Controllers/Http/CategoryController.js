@@ -14,10 +14,10 @@ class CategoryController {
   async index({ request, response, view }) {
     const queryString = request.get();
     if (queryString.keyword) {
-      const type = queryString.type === "product"
-        ? "product.name = ?"
-        : "category.name = ?";
-      const sql = `SELECT
+      if (queryString.type === "category") {
+        return await User.findBy('name', queryString.keyword);
+      } else {
+        const sql = `SELECT
         category.id AS category_id,
         category.name AS category_name,
         product.id AS product_id,
@@ -30,11 +30,11 @@ class CategoryController {
         categories category,
         products product
         WHERE category.id = product.category_id
-        AND
-        ${type}
+        AND product.name = ?
       `;
-      const result = await Database.raw(sql, [queryString.keyword]);
-      return await result[0];
+        const result = await Database.raw(sql, [queryString.keyword]);
+        return await result[0];
+      }
     }
     return await Category.query().with('product').fetch();
   }
