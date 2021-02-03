@@ -33,10 +33,10 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/', 'ProductController.index');
-  Route.post('/', 'ProductController.store');
+  Route.post('/', 'ProductController.store').middleware(["adminAuth"]);
   Route.put('/changeStockBalance/:id', 'ProductController.changeStockBalance');
-  Route.put('/:id', 'ProductController.update');
-  Route.delete('/:id', 'ProductController.destroy');
+  Route.put('/:id', 'ProductController.update').middleware(["adminAuth"]);
+  Route.delete('/:id', 'ProductController.destroy').middleware(["adminAuth"]);
 }).prefix('product');
 
 Route.group(() => {
