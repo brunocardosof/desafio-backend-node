@@ -20,13 +20,13 @@ class UserSeeder {
       "username": "Admin",
       "email": "admin@hotmail.com",
       "password": '123456',
-      "role": "client"
+      "role": "admin"
     });
     await User.create({
       "username": "client",
       "email": "client@hotmail.com",
       "password": '123456',
-      "role": "admin"
+      "role": "client"
     });
   }
 }
