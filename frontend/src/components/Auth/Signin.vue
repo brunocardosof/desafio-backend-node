@@ -1,6 +1,9 @@
 <template>
   <div class="signinContainer">
     <div class="signinCard">
+      <div class="signinCardTitle">
+        <h2>Faça seu login</h2>
+      </div>
       <form class="signinForm">
         <input
           class="inputAuth"
@@ -37,6 +40,8 @@
 
 <script>
 import AuthService from "../../service/auth";
+import jwt_decode from "jwt-decode";
+
 export default {
   name: "signin",
   data() {
@@ -57,8 +62,13 @@ export default {
       AuthService.signin(data)
         .then((response) => {
           if (response.status === 200) {
-            localStorage.setItem("loggedUser", JSON.stringify(response.data));
-            window.location.reload();
+            const jwtDecode = jwt_decode(response.data.token);
+            const user = {
+              email: this.signin.email,
+              id: jwtDecode.uid,
+            };
+            localStorage.setItem("loggedUser", JSON.stringify(user));
+            this.$router.push({ name: "product" });
           }
         })
         .catch((e) => {
@@ -86,6 +96,12 @@ export default {
 .signinCard:hover {
   transition: var(--default-transition);
   border: 4px solid var(--main-color);
+}
+.signinCardTitle {
+  padding-bottom: 70px;
+}
+.signinCardTitle h2 {
+  text-align: center;
 }
 .signinForm {
   display: flex;

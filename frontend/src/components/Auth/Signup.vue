@@ -1,6 +1,9 @@
 <template>
   <div class="signupContainer">
     <div class="signupCard">
+      <div class="signupCardTitle">
+        <h2>Faça seu cadastro</h2>
+      </div>
       <form class="signupForm">
         <input
           class="inputAuth"
@@ -75,6 +78,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             alert("Cadastro realizado com sucesso!");
+            this.$router.push({ name: "signin" });
           }
         })
         .catch((e) => {
@@ -102,6 +106,12 @@ export default {
 .signupCard:hover {
   transition: var(--default-transition);
   border: 4px solid var(--main-color);
+}
+.signupCardTitle {
+  padding-bottom: 70px;
+}
+.signupCardTitle h2 {
+  text-align: center;
 }
 .signupForm {
   display: flex;

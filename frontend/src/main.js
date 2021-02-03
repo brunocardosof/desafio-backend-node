@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './routes';
 
 Vue.config.productionTip = false;
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('loggedUser') == null) {
@@ -10,6 +11,8 @@ router.beforeEach((to, from, next) => {
         path: '/signin',
         params: { nextUrl: to.fullPath }
       });
+    } else {
+      next();
     }
   } else {
     next();

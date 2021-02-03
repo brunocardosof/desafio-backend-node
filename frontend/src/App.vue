@@ -11,9 +11,7 @@
         <router-link to="/sale" class="nav-link">Venda</router-link>
       </li>
     </nav>
-    <div class="container mt-3">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
