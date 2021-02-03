@@ -1,64 +1,131 @@
-<template class="container">
-  <div class="card">
-    <div class="card-header"></div>
-    <form>
-      <input type="text" name="username" id="username" placeholder="Nome" />
-      <input type="email" name="email" id="email" placeholder="Email" />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Senha"
-      />
-      <input type="text" name="role" id="rolepassword" placeholder="Tipo do " />
-      <label for="cars">Tipo do Usuário</label>
-      <select name="role" id="role">
-        <option value="admin">Administrador</option>
-        <option value="client">Cliente</option>
-      </select>
-      <button type="button" id="submit">Cadastrar</button>
-      <p class="signinRedirectionText">
-        Já possui cadastro?
-        <router-link to="/signin" class="signinLink">Clique Aqui</router-link>
-      </p>
-    </form>
+<template>
+  <div class="signupContainer">
+    <div class="signupCard">
+      <form class="signupForm">
+        <input
+          class="inputAuth"
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Nome"
+          v-model="signup.username"
+        />
+        <input
+          class="inputAuth"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          v-model="signup.email"
+        />
+        <input
+          class="inputAuth"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Senha"
+          v-model="signup.password"
+        />
+        <label for="role">Tipo do Usuário</label>
+        <select class="inputAuth" name="role" id="role" v-model="signup.role">
+          <option value="admin">Admin</option>
+          <option value="client">Cliente</option>
+        </select>
+        <button
+          class="signupButtonSubmit"
+          type="button"
+          id="submit"
+          @click="signupUser"
+        >
+          Cadastrar
+        </button>
+        <p class="signinRedirectionText">
+          Já possui cadastro?
+          <router-link to="/signin" class="signinLink">Clique Aqui</router-link>
+        </p>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import AuthService from "../../service/auth";
 export default {
+  name: "signup",
   data() {
     return {
-      msg: "Hello World!",
+      signup: {
+        username: "",
+        email: "",
+        password: "",
+        role: "",
+      },
     };
+  },
+  methods: {
+    signupUser() {
+      const data = {
+        username: this.signup.username,
+        email: this.signup.email,
+        password: this.signup.password,
+        role: this.signup.role,
+      };
+
+      AuthService.signup(data)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Cadastro realizado com sucesso!");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
 };
 </script>
 
 <style>
-.container {
+.signupContainer {
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.card {
-  border: 1px solid var(--main-color);
-  border-radius: 30px;
-  padding: 30px;
-}
-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-form input {
-  margin-bottom: 25px;
+.signupCard {
+  border: 1px solid var(--main-color);
+  border-radius: 30px;
+  padding: 60px;
+  margin-bottom: 80px;
 }
-form select {
+.signupCard:hover {
+  transition: var(--default-transition);
+  border: 4px solid var(--main-color);
+}
+.signupForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+form .inputAuth {
   margin-bottom: 25px;
+  height: 35px;
+  width: 300px;
+  padding-left: 30px;
+}
+.signupButtonSubmit {
+  height: 35px;
+  width: 300px;
+  cursor: pointer;
+  background-color: var(--main-color) !important;
+  color: white;
+}
+.signupButtonSubmit:hover {
+  transition: var(--default-transition);
+  background-color: white !important;
+  color: var(--main-color);
 }
 .signinRedirectionText {
   margin-top: 30px;
