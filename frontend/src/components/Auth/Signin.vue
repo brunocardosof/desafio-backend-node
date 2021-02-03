@@ -1,57 +1,115 @@
-<template class="container">
-  <div class="card">
-    <div class="card-header"></div>
-    <form>
-      <input type="email" name="email" id="email" placeholder="Email" />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Senha"
-      />
-      <button type="button" id="submit">Entrar</button>
-      <p class="signupRedirectionText">
-        Não possui cadastro?
-        <router-link to="/signup" class="signupLink">Clique Aqui</router-link>
-      </p>
-    </form>
+<template>
+  <div class="signinContainer">
+    <div class="signinCard">
+      <form class="signinForm">
+        <input
+          class="inputAuth"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          v-model="signin.email"
+        />
+        <input
+          class="inputAuth"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Senha"
+          v-model="signin.password"
+        />
+        <button
+          class="signinButtonSubmit"
+          type="button"
+          id="submit"
+          @click="signinUser"
+        >
+          Entrar
+        </button>
+        <p class="signupRedirectionText">
+          Não possui cadastro?
+          <router-link to="/signup" class="signupLink">Clique Aqui</router-link>
+        </p>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import AuthService from "../../service/auth";
 export default {
+  name: "signin",
   data() {
     return {
-      msg: "Hello World!",
+      signin: {
+        email: "",
+        password: "",
+      },
     };
+  },
+  methods: {
+    signinUser() {
+      const data = {
+        email: this.signin.email,
+        password: this.signin.password,
+      };
+
+      AuthService.signin(data)
+        .then((response) => {
+          if (response.status === 200) {
+            localStorage.setItem("loggedUser", JSON.stringify(response.data));
+            window.location.reload();
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
 };
 </script>
 
 <style>
-.container {
+.signinContainer {
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-.card {
-  border: 1px solid var(--main-color);
-  border-radius: 30px;
-  padding: 60px;
-}
-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-form input {
-  margin-bottom: 25px;
+.signinCard {
+  border: 1px solid var(--main-color);
+  border-radius: 30px;
+  padding: 60px;
+  margin-bottom: 80px;
 }
-form select {
+.signinCard:hover {
+  transition: var(--default-transition);
+  border: 4px solid var(--main-color);
+}
+.signinForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+form .inputAuth {
   margin-bottom: 25px;
+  height: 35px;
+  width: 300px;
+  padding-left: 30px;
+}
+.signinButtonSubmit {
+  height: 35px;
+  width: 300px;
+  cursor: pointer;
+  background-color: var(--main-color) !important;
+  color: white;
+}
+.signinButtonSubmit:hover {
+  transition: var(--default-transition);
+  background-color: white !important;
+  color: var(--main-color);
 }
 .signupRedirectionText {
   margin-top: 30px;
