@@ -41,6 +41,7 @@
 <script>
 import AuthService from "../../service/auth";
 import jwt_decode from "jwt-decode";
+import api from "../../service/api";
 
 export default {
   name: "signin",
@@ -51,6 +52,11 @@ export default {
         password: "",
       },
     };
+  },
+  created: function() {
+    if (localStorage.getItem("loggedUser") !== null) {
+      this.$router.push({ name: "product" });
+    }
   },
   methods: {
     signinUser() {
@@ -67,6 +73,9 @@ export default {
               email: this.signin.email,
               id: jwtDecode.uid,
             };
+            api.defaults.headers[
+              "Authorization"
+            ] = `Bearer ${response.data.token}`;
             localStorage.setItem("loggedUser", JSON.stringify(user));
             this.$router.push({ name: "product" });
           }
