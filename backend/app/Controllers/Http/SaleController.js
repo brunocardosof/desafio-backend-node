@@ -5,6 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Sales_Product = use("App/Models/Sales_Product");
+const Sale = use("App/Models/Sale");
 const Database = use('Database');
 
 /**
@@ -18,14 +19,13 @@ class SaleController {
   product_price = 0;
 
   async index({ request, params }) {
-    const queryString = request.get();
     return await Sales_Product
       .query()
       .with('product', (builder) => {
         builder.select('id', 'product_id', 'name', 'stock_balance', 'image_id');
       })
       .with('product.categories')
-      .paginate(queryString.page, 10);
+      .fetch();
   }
 
   async sale({ request, response }) {
@@ -50,7 +50,7 @@ class SaleController {
     Sale.create(dataForSale)
       .then(async (result) => {
         const dataForSalesProduct = {
-          sales_id: result.id,
+          sale_id: result.id,
           product_id: propertiesForSalesProduct.product_id,
           quantity: propertiesForSalesProduct.quantity,
           total_price: this.price * propertiesForSalesProduct.quantity,
@@ -74,7 +74,7 @@ class SaleController {
     return await Database
       .table('sales_products')
       .insert({
-        sales_id: data.sales_id,
+        sale_id: data.sale_id,
         product_id: data.product_id,
         quantity: data.quantity,
         total_price: data.total_price,
@@ -118,7 +118,7 @@ class SaleController {
     const sales_product = await Database
       .table('sales_products')
       .select('quantity')
-      .where('sales_id', params.id);
+      .where('sale_id', params.id);
     this.product_quantity = sales_product[0].quantity;
 
     this.addStockBalance();
