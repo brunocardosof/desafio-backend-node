@@ -32,7 +32,7 @@ class ProductController {
       });
   }
   async update({ params, request, response }) {
-    const product = await Product.firstOrFail(params.id);
+    const product = await Product.findOrFail(params.id);
     const data = request.post();
     product.merge(data);
     await product.save()
