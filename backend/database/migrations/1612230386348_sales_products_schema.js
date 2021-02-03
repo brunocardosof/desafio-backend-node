@@ -16,7 +16,7 @@ class SalesProductsSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
       table
-        .integer('sales_id')
+        .integer('sale_id')
         .unsigned()
         .notNullable()
         .references('id')
