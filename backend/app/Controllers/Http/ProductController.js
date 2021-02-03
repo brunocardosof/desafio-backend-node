@@ -11,11 +11,9 @@ const Database = use('Database');
  * Resourceful controller for interacting with products
  */
 class ProductController {
-  async index({ request, response }) {
-    const query = request.get();
-    return await Database
-      .from('products')
-      .paginate(query.page, 10);
+  async index() {
+    return await Product.all();
+
   }
   async store({ request, response }) {
     const data = request.post();
