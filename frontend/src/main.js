@@ -7,6 +7,7 @@ Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('loggedUser') == null) {
+      alert("Faça login para acessar os menus!");
       next({
         path: '/signin',
         params: { nextUrl: to.fullPath }

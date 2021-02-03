@@ -142,4 +142,21 @@ form .inputAuth {
   text-decoration: none;
   color: indigo !important;
 }
+@media (max-width: 480px) {
+  .signinCard {
+    padding: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .signupRedirectionText {
+    font-size: 18px;
+  }
+  .signupLink {
+    font-size: 24px;
+  }
+  form .inputAuth {
+    width: 280px;
+    border: 1px solid var(--main-color);
+  }
+}
 </style>

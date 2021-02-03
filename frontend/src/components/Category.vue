@@ -121,4 +121,15 @@ form .inputAuth {
   text-decoration: none;
   color: indigo !important;
 }
+@media (max-width: 480px) {
+  .categoryCard {
+    padding: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  form .inputAuth {
+    width: 280px;
+    border: 1px solid var(--main-color);
+  }
+}
 </style>
