@@ -80,6 +80,10 @@ export default {
           this.categories = response.data;
         })
         .catch((e) => {
+          if (e.message.match(401)) {
+            alert("Você não é administrador");
+            return false;
+          }
           console.log(e);
         });
     },

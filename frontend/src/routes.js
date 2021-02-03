@@ -7,6 +7,12 @@ export default new Router({
   mode: "history",
   routes: [
     {
+      path: "/",
+      alias: "signin",
+      name: "signin",
+      component: () => import("./components/Auth/Signin"),
+    },
+    {
       path: "/signup",
       alias: "signup",
       name: "signup",
