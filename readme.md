@@ -69,3 +69,62 @@ Fazemos parte do universo digital, focada em criar e desenvolver experiências i
 ## Conclusão
 
 Crie um fork e submeta ao Github o seu desafio. Após isso envie um e-mail para [letsrock@owinteractive.com](mailto:letsrock@owinteractive.com), com o assunto [DESAFIO BACK-END] com o link para o seu desafio. Obrigado por participar e boa sorte =)
+
+*****************************************************************************
+
+## Observações
+
+## Documentação
+
+A rotas foram documentada pelo insomni,acessando diretamente o arquivo insomnia.json em https://github.com/brunocardosof/desafio-backend-node/blob/master/backend/doc/Insomnia.json com o programa insomnia.
+
+Também acessando o insomnia documenter, na pasta backend/doc, rodar localmente a página da documentação utilizando algum http server, por exemploe, <b>npx serve</b>
+
+## Backend
+
+Configurar o arquivo .env para acessar o banco de dados, enviar email(foi utilizado o mailtrap para testes) e a chave secreta para o JWT
+
+APP_KEY=QFXhUsWeL1RfRqZS9FSC79ydflz8c9Us
+
+DB_CONNECTION=mysql
+
+DB_HOST=127.0.0.1
+
+DB_PORT=3306
+
+DB_USER=root
+
+DB_PASSWORD=
+
+DB_DATABASE=desafio_backend
+
+HASH_DRIVER=bcrypt
+
+MAIL_CONNECTION=smtp
+
+SMTP_PORT=?
+
+SMTP_HOST=?
+
+MAIL_USERNAME=?
+
+MAIL_PASSWORD=?
+
+<b> Criar o banco de dados com o nome desafio_backend</b>
+
+<b> Instalar as dependências do projeto, rodar as migrations, seeds e startar o projeto com os comandos a seguir:</b>
+```shell
+$ npm i
+$ adonis migration:run
+$ adonis seed
+$ adonis serve --dev
+```
+
+## Frontend
+
+<b> Instalar as dependências do projeto e startar o projeto com os comandos a seguir:</b>
+
+```shell
+$ npm i
+$ npm run serve
+```
